@@ -1,5 +1,7 @@
+"use client";
+
 import { Avatar, AvatarFallback, AvatarImage } from "@radix-ui/react-avatar";
-import { LogOut, Moon, Settings, SquareMenu, User } from "lucide-react";
+import { LogOut, Moon, Settings, SquareMenu, Sun, User } from "lucide-react";
 import Link from "next/link";
 import {
   DropdownMenu,
@@ -10,8 +12,10 @@ import {
   DropdownMenuTrigger,
 } from "./ui/dropdown-menu";
 import { Button } from "./ui/button";
+import { useTheme } from "next-themes";
 
 const Navbar = () => {
+  const { setTheme } = useTheme();
   return (
     <nav className="flex items-center justify-between">
       {/* LEFT */}
@@ -19,7 +23,39 @@ const Navbar = () => {
       {/* RIGHT */}
       <div className="flex items-center gap-4">
         <Link href="/">Dashboard</Link>
-        <Moon />
+        <DropdownMenu>
+          {/* button not inside button use asChild help it, display child not default element*/}
+          <DropdownMenuTrigger asChild>
+            <Button variant={"outline"} size={"icon"}>
+              <Sun className="h-[1.2rem] w-[1.2rem] scale-100 rotate-0 transition-all dark:scale-0 dark:-rotate-90" />
+              <Moon className="absolute h-[1.2rem] w-[1.2rem] scale-0 rotate-90 transition-all dark:scale-100 dark:rotate-0" />
+              <span className="sr-only">Toggle theme</span>
+            </Button>
+          </DropdownMenuTrigger>
+
+          <DropdownMenuContent sideOffset={9}>
+            <DropdownMenuLabel>My Account</DropdownMenuLabel>
+            <DropdownMenuSeparator />
+            <DropdownMenuItem
+              className="flex items-center gap-2"
+              onClick={() => setTheme("light")}
+            >
+              Light
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="flex items-center gap-2"
+              onClick={() => setTheme("dark")}
+            >
+              Dark
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="flex items-center gap-2"
+              onClick={() => setTheme("system")}
+            >
+              System
+            </DropdownMenuItem>
+          </DropdownMenuContent>
+        </DropdownMenu>
         <DropdownMenu>
           <DropdownMenuTrigger>
             <Avatar>
@@ -60,13 +96,13 @@ const Navbar = () => {
             <DropdownMenuLabel>My Account</DropdownMenuLabel>
             <DropdownMenuSeparator />
             <DropdownMenuItem className="flex items-center gap-2">
-              Menu Item 1
+              Items 1
             </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-2">
-              Menu Item 2
+              Items 2
             </DropdownMenuItem>
             <DropdownMenuItem className="flex items-center gap-2">
-              Menu Item 3
+              Items 3
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
